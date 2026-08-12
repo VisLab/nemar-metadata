@@ -55,7 +55,7 @@ Everything under `datasets/` is gitignored and lives only on the machine that bu
 - **Committed files carry no project history** - no dates, no "previously", no session labels. Rationale goes in `.status/decisions.md`.
 - **No committed file contains a local path or a drive letter**, with the single exception of the `pyproject.toml` toolkit pin noted above. Machine facts live in `.status/local-environment.md`.
 - **Examples use placeholders** (`REPO_NAME`), not real dataset IDs.
-- Nothing that ships may reference `.status/`, except the files whose job is to orient a tool - this file, `CLAUDE.md`, `.github/copilot-instructions.md`, `.gitignore`, and `.claude/settings.json`.
+- Nothing that ships may reference `.status/`, except the files whose job is to orient a tool - this file, `CLAUDE.md`, `.gitignore`, the files under `.claude/` (`settings.json`, `rules/`), and those under `.github/` (`copilot-instructions.md`, `instructions/`).
 
 ## Where the thinking lives
 
