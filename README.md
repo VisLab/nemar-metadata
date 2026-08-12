@@ -1,20 +1,17 @@
 # nemar-metadata
 
-Discovers, mirrors, and summarizes metadata for the
-[nemarDatasets](https://github.com/nemarDatasets) GitHub organization for HED
+[NEMAR](https://nemar.org) is a repository for open-access neuroimaging and behavioral data in [BIDS](https://bids.neuroimaging.io/index.html). 
+
+This repository iscovers, mirrors, and summarizes metadata for the [nemarDatasets](https://github.com/nemarDatasets) GitHub organization for HED
 (Hierarchical Event Descriptors) annotation.
 
-NEMAR is structured like [OpenNeuro](https://github.com/OpenNeuroDatasets): each
-dataset is its own repository. The differences here are:
-
-- dataset repositories are named **`nm******`** *and* **`on******`** (OpenNeuro
-  uses `ds******`); both are NEMAR datasets and both are kept;
+- dataset repositories are named **`nm******`** *or* **`on******`**. The `on` datasets were exported from the corresponding `ds` datasets on [OpenNeuro]()
 - each dataset carries a **`.nemar/`** subdirectory whose contents are mirrored
   alongside the top-level files.
-
-All pipeline logic lives in the shared **`hed-metadata-toolkit`** package; this
+- All pipeline logic lives in the shared **`hed-metadata-toolkit`** package; this
 repo is a thin consumer that supplies NEMAR-specific configuration on the
-command line. The `hed-*` commands are created by installing the toolkit — they
+command line. 
+- The `hed-*` commands are created by installing the toolkit — they
 are not files in this repo. Every command also runs as
 `python -m hed_metadata_toolkit.<module>`, and every command supports `--help`.
 

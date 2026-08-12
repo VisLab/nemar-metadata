@@ -9,9 +9,6 @@ description = "Downloads and extracts metadata from the nemarDatasets GitHub org
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    # Shared pipeline + base layer. Local path dependency for now; switch to a
-    # pinned Git URL once the toolkit is published. For live co-development:
-    #     pip install -e H:/Repos/hed-metadata-toolkit
     "hed-metadata-toolkit @ file:///H:/Repos/hed-metadata-toolkit",
     "pandas",
     "requests",

@@ -5,16 +5,14 @@ working in it. See `README.md` for the full pipeline/how-to-run.
 
 ## What this repo is
 
-A thin consumer of the shared **`hed-metadata-toolkit`** package, scoped to the
+A thin consumer of the **`hed-metadata-toolkit`** package, scoped to the
 [nemarDatasets](https://github.com/nemarDatasets) GitHub organization. It mirrors
-and summarizes per-dataset metadata for HED annotation. NEMAR is structured like
-OpenNeuro (one repo per dataset); the differences are encoded as command-line
-configuration, not forked code:
+and summarizes per-dataset metadata for HED annotation. nemarDatasets has one repo per dataset and has the following structure:
 
 - dataset repos are named **`nm******`** and **`on******`** (both are NEMAR
-  datasets) → `--prefix nm --prefix on` (the `--prefix` flag is repeatable)
-- each dataset has a **`.nemar/`** subdirectory to mirror → `--include-subdir .nemar`
-- organization → `--org nemarDatasets`
+  datasets) -> `--prefix nm --prefix on` (the `--prefix` flag is repeatable)
+- each dataset has a **`.nemar/`** subdirectory to mirror -> `--include-subdir .nemar`
+- organization -> `--org nemarDatasets`
 
 All pipeline logic is in the toolkit; this repo holds configuration, cached
 data under `datasets/`, and notes. There are **no repo-specific pipeline
