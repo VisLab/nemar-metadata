@@ -11,7 +11,7 @@ This repository discovers, mirrors, and summarizes metadata for the [nemarDatase
 - All pipeline logic lives in the shared **`hed-metadata-toolkit`** package; this
 repo is a thin consumer that supplies NEMAR-specific configuration on the
 command line. 
-- The `hed-*` commands are created by installing the toolkit — they
+- The `hed-*` commands are created by installing the toolkit - they
 are not files in this repo. Every command also runs as
 `python -m hed_metadata_toolkit.<module>`, and every command supports `--help`.
 
@@ -41,7 +41,7 @@ hed-fetch-repo-list --help
 ```
 
 > **Run every command from the repository root.** Paths resolve relative to the
-> current directory (`datasets/dataset_summaries/…`, `datasets/dataset_repos/…`).
+> current directory (`datasets/dataset_summaries/...`, `datasets/dataset_repos/...`).
 
 > **NEMAR-critical:** every command that talks to GitHub **requires
 > `--org nemarDatasets`** - there is no default organization, and a wrong org
@@ -51,7 +51,7 @@ hed-fetch-repo-list --help
 
 ---
 
-## Quick start — full pipeline
+## Quick start - full pipeline
 
 Run these in order from the repo root. Each step consumes the previous step's
 output, so the order matters.
@@ -89,7 +89,7 @@ Get-Content datasets\dataset_repos\nm000105\.nemar\metadata.json
 
 ## Steps in detail
 
-### Step 1 — Fetch the repository list
+### Step 1 - Fetch the repository list
 
 **Command:** `hed-fetch-repo-list`
 
@@ -107,17 +107,17 @@ hed-fetch-repo-list --org nemarDatasets
 | `--token` | `$GITHUB_TOKEN` | GitHub PAT. |
 
 **Output:** `datasets/dataset_summaries/datasets.tsv` (all org repos, incl.
-non-dataset ones like `.github` — those are filtered out in Step 2, which keeps
+non-dataset ones like `.github` - those are filtered out in Step 2, which keeps
 only `nm*` and `on*`).
 
-### Step 2 — Sync the file listing (incl. `.nemar/`)
+### Step 2 - Sync the file listing (incl. `.nemar/`)
 
 **Command:** `hed-sync-repo-contents`
 
 Reads `datasets.tsv`, keeps `nm******` and `on******` repos, and makes one
 recursive git-tree call per repo to derive its `subjects`, `datatypes`,
 `event_files`, and `top_level_files` (the latter includes the `.nemar/`
-contents). This produces the *listing/metadata only* — it does not download file
+contents). This produces the *listing/metadata only* - it does not download file
 contents (Step 3 does).
 
 ```powershell
@@ -131,14 +131,14 @@ hed-sync-repo-contents --org nemarDatasets --prefix nm --prefix on --include-sub
 | `--include-subdir` | *(none)* | **Set to `.nemar`** to include `.nemar/<file>` entries (repeatable). |
 | `--force` | off | Re-fetch all repos, ignoring `synced_at`. |
 | `--retry-failed` | off | Re-attempt repos in `repo_contents_failures.json`. |
-| `--repo nm000105` | — | Process a single repo (handy for testing). |
+| `--repo nm000105` | - | Process a single repo (handy for testing). |
 | `--tsv` / `--out` | under `datasets/dataset_summaries/` | Override input/output paths. |
 
-**Output:** `datasets/dataset_summaries/repo_contents.json` — per repo:
+**Output:** `datasets/dataset_summaries/repo_contents.json` - per repo:
 `synced_at`, `updated_at`, `truncated`, `top_level_files` (incl. `.nemar/<name>`
 blobs), `subjects`, `datatypes`, and `event_files`.
 
-### Step 3 — Download files locally
+### Step 3 - Download files locally
 
 **Command:** `hed-sync-local-files`
 
@@ -158,7 +158,7 @@ hed-sync-local-files --org nemarDatasets
 | `--force` | off | Re-download even when the SHA matches. |
 | `--workers N` | 10 | Parallel download threads. |
 | `--max-size BYTES` | 524288 | Skip blobs larger than this. |
-| `--repo nm000105` | — | Sync a single repo. |
+| `--repo nm000105` | - | Sync a single repo. |
 | `--contents` / `--datasets` | under `datasets/` | Override input listing / output root. |
 
 **Output:** files under `datasets/dataset_repos/<repo>/` (incl. `.nemar/`);
@@ -170,7 +170,7 @@ failures recorded in `datasets/dataset_summaries/download_failures.json`.
 > a run that used the wrong org:
 > `hed-sync-local-files --org nemarDatasets --retry-failed`
 
-### Step 4 — Sync per-participant event files *(optional)*
+### Step 4 - Sync per-participant event files *(optional)*
 
 **Command:** `hed-sync-repo-file-contents`
 
@@ -184,7 +184,7 @@ hed-sync-repo-file-contents --org nemarDatasets
 Same `--org` requirement and `--retry-failed` / `--force` / `--workers` options
 as Step 3.
 
-### Steps 5–7 — Dataset summary
+### Steps 5-7 - Dataset summary
 
 These read the local data and the listing; they make no network calls, so they
 take no `--org`.
@@ -204,16 +204,16 @@ hed-extract-readme-summaries
 ```
 
 Citation steps (`hed-collect-citations`, `hed-assign-citation-ids`,
-`hed-enrich-pub-ids`, …) are available from the toolkit if/when NEMAR citation
+`hed-enrich-pub-ids`, ...) are available from the toolkit if/when NEMAR citation
 curation is needed; add a `config/citation_skip_list.txt` first.
 
-### Optional — list event files without downloading
+### Optional - list event files without downloading
 
 **Command:** `hed-list-event-files`
 
 Builds a manifest of every BIDS event file (`*_events.tsv` / `*_events.json`)
 that sits at the repo root or **anywhere beneath a top-level `sub-*/`
-directory** — event files under `derivatives/`, `sourcedata/`, etc. are
+directory** - event files under `derivatives/`, `sourcedata/`, etc. are
 ignored. It only reads the recursive git-tree per repo; **no file contents are
 downloaded.**
 
@@ -228,9 +228,9 @@ hed-list-event-files --org nemarDatasets --prefix nm --prefix on
 | `--force` | off | Re-list every repo (otherwise unchanged repos are skipped). |
 | `--out` / `--tsv-out` | under `datasets/dataset_summaries/` | Override the JSON manifest / flat TSV paths. |
 
-**Outputs:** `datasets/dataset_summaries/event_files.json` — per repo:
+**Outputs:** `datasets/dataset_summaries/event_files.json` - per repo:
 `synced_at`, `updated_at`, and `event_files` as a list of `{path, size, sha}`
-objects (`size`/`sha` from the git-trees blob entry) — and `event_files.tsv`
+objects (`size`/`sha` from the git-trees blob entry) - and `event_files.tsv`
 (`repo`, `path`, `size`, `sha`). Incremental: on re-run, a repo is re-listed
 only when its `datasets.tsv` `updated_at` is newer than the stored `synced_at`.
 
@@ -240,8 +240,8 @@ only when its `datasets.tsv` `updated_at` is newer than the stored `synced_at`.
 
 ```
 nemar-metadata/
-├── datasets/
-│   ├── dataset_repos/          # locally mirrored files per nm*/on* dataset (incl. .nemar/)
-│   └── dataset_summaries/      # datasets.tsv, repo_contents.json, summary TSVs
-└── pyproject.toml              # dependency pins only — this repo has no code
+|-- datasets/
+|   |-- dataset_repos/          # locally mirrored files per nm*/on* dataset (incl. .nemar/)
+|   `-- dataset_summaries/      # datasets.tsv, repo_contents.json, summary TSVs
+`-- pyproject.toml              # dependency pins only - this repo has no code
 ```
