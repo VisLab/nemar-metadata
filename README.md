@@ -2,7 +2,7 @@
 
 [NEMAR](https://nemar.org) is a repository for open-access neuroimaging and behavioral data in [BIDS](https://bids.neuroimaging.io/index.html). 
 
-This repository iscovers, mirrors, and summarizes metadata for the [nemarDatasets](https://github.com/nemarDatasets) GitHub organization for HED
+This repository discovers, mirrors, and summarizes metadata for the [nemarDatasets](https://github.com/nemarDatasets) GitHub organization for HED
 (Hierarchical Event Descriptors) annotation.
 
 - dataset repositories are named **`nm******`** *or* **`on******`**. The `on` datasets were exported from the corresponding `ds` datasets on [OpenNeuro]()
@@ -24,7 +24,7 @@ are not files in this repo. Every command also runs as
 python -m venv .venv
 .venv\Scripts\Activate.ps1
 pip install -e .                              # installs the toolkit + hed-* commands
-pip install -e H:\Repos\hed-metadata-toolkit  # editable, so toolkit edits are picked up
+pip install -e PATH\TO\hed-metadata-toolkit   # editable, so toolkit edits are picked up
 ```
 
 Put a GitHub token in a `.env` file at the repo root (used by every networked
@@ -43,11 +43,11 @@ hed-fetch-repo-list --help
 > **Run every command from the repository root.** Paths resolve relative to the
 > current directory (`datasets/dataset_summaries/…`, `datasets/dataset_repos/…`).
 
-> **⚠ NEMAR-critical:** every command that talks to GitHub needs
-> **`--org nemarDatasets`**. Its default is `OpenNeuroDatasets`; if you omit it,
-> requests 404 against the wrong org and you get empty dataset folders. The two
-> other NEMAR flags (`--prefix nm --prefix on`, `--include-subdir .nemar`) apply
-> only to Step 2.
+> **NEMAR-critical:** every command that talks to GitHub **requires
+> `--org nemarDatasets`** - there is no default organization, and a wrong org
+> 404s per file and leaves empty dataset folders. `--prefix` already defaults
+> to `nm on`, so it can be omitted; `--include-subdir .nemar` applies only to
+> Step 2.
 
 ---
 
@@ -102,7 +102,7 @@ hed-fetch-repo-list --org nemarDatasets
 
 | Option | Default | Purpose |
 |--------|---------|---------|
-| `--org` | `OpenNeuroDatasets` | **Set to `nemarDatasets`.** |
+| `--org` | *(required)* | **Set to `nemarDatasets`.** |
 | `--output` | `datasets/dataset_summaries/datasets.tsv` | Destination TSV. |
 | `--token` | `$GITHUB_TOKEN` | GitHub PAT. |
 
@@ -126,8 +126,8 @@ hed-sync-repo-contents --org nemarDatasets --prefix nm --prefix on --include-sub
 
 | Option | Default | Purpose |
 |--------|---------|---------|
-| `--org` | `OpenNeuroDatasets` | **Set to `nemarDatasets`.** |
-| `--prefix` | `ds` | **Repeatable; set to `nm` and `on`:** `--prefix nm --prefix on` (`''` = all). |
+| `--org` | *(required)* | **Set to `nemarDatasets`.** |
+| `--prefix` | `nm on` | Repeatable; the default already matches NEMAR (`''` = all). |
 | `--include-subdir` | *(none)* | **Set to `.nemar`** to include `.nemar/<file>` entries (repeatable). |
 | `--force` | off | Re-fetch all repos, ignoring `synced_at`. |
 | `--retry-failed` | off | Re-attempt repos in `repo_contents_failures.json`. |
@@ -153,7 +153,7 @@ hed-sync-local-files --org nemarDatasets
 
 | Option | Default | Purpose |
 |--------|---------|---------|
-| `--org` | `OpenNeuroDatasets` | **Set to `nemarDatasets`** (otherwise every file 404s). |
+| `--org` | *(required)* | **Set to `nemarDatasets`** (otherwise every file 404s). |
 | `--retry-failed` | off | Re-attempt files in `download_failures.json`. |
 | `--force` | off | Re-download even when the SHA matches. |
 | `--workers N` | 10 | Parallel download threads. |
@@ -223,8 +223,8 @@ hed-list-event-files --org nemarDatasets --prefix nm --prefix on
 
 | Option | Default | Purpose |
 |--------|---------|---------|
-| `--org` | `OpenNeuroDatasets` | **Set to `nemarDatasets`.** |
-| `--prefix` | `ds` | **Repeatable; set to `nm` and `on`:** `--prefix nm --prefix on`. |
+| `--org` | *(required)* | **Set to `nemarDatasets`.** |
+| `--prefix` | `nm on` | Repeatable; the default already matches NEMAR. |
 | `--force` | off | Re-list every repo (otherwise unchanged repos are skipped). |
 | `--out` / `--tsv-out` | under `datasets/dataset_summaries/` | Override the JSON manifest / flat TSV paths. |
 
@@ -243,13 +243,5 @@ nemar-metadata/
 ├── datasets/
 │   ├── dataset_repos/          # locally mirrored files per nm*/on* dataset (incl. .nemar/)
 │   └── dataset_summaries/      # datasets.tsv, repo_contents.json, summary TSVs
-├── src/                        # no repo-specific scripts — see src/README.md
-├── tests/
-└── pyproject.toml
+└── pyproject.toml              # dependency pins only — this repo has no code
 ```
-
-> Early hand-run output from the now-retired local scripts may still exist at
-> `datasets/datasets.tsv` and `datasets/nm******/` (a flatter layout). Re-running
-> the pipeline above populates the canonical locations; the old copies can then
-> be cleaned up. The retired local scripts are archived under
-> `.status/temp_files/`.

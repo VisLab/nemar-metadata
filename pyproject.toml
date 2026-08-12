@@ -21,8 +21,8 @@ dev = [
     "pytest",
 ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
+[tool.setuptools]
+packages = []
 
 [tool.ruff]
 line-length = 120

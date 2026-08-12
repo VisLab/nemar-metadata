@@ -1,0 +1,11 @@
+{
+    "_comment": "Committed and shared. Machine-specific settings do NOT belong here: workspace settings override user settings, so anything added here is imposed on everyone. Put your interpreter path in your VS Code User settings, and HED_CACHE_DIR in .env (see .env.example). This repo has no tests; if a tests/ directory ever appears, restore the python.testing.* pytest keys from the toolkit's copy of this file.",
+
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+
+    "python.terminal.activateEnvironment": false,
+
+    "git.ignoreLimitWarning": true
+}

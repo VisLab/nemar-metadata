@@ -5,6 +5,7 @@ results/
 .env
 .env.*
 !.env.example
+CLAUDE.local.md
 
 # Python
 __pycache__/
@@ -56,8 +57,9 @@ htmlcov/
 .ipynb_checkpoints
 *.ipynb_checkpoints/
 
-# IDEs
-.vscode/
+# IDEs (committed .vscode/settings.json holds portable settings only)
+.vscode/*
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
