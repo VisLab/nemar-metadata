@@ -5,7 +5,6 @@
       "Bash(python -m ruff *)",
       "Bash(python -m pytest *)",
       "Bash(pytest *)",
-      "Bash(python -c *)",
       "Bash(python --version)",
       "Bash(python -m pip list)",
       "Bash(python -m pip show *)",
